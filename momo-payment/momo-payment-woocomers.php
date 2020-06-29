@@ -2,14 +2,14 @@
 
 /**
  * Plugin Name: Momo Payment for Woocommerce
- * Plugin URI: https://www.facebook.com/giangminhhoang.ro
+ * Plugin URI: https://github.com/gmhoangdeveloper/PaymentQR_Momo
  * Author Name: Giang Minh Hoàng
  * Author URI: https://www.facebook.com/giangminhhoang.ro
- * Description: This plugin allows for local content payment systems.
+ * Description: Plugin thanh toán trực tuyến Quét QR Momo hàng đầu Việt Nam
  * Version: 0.1.0
  * License: 0.1.0
- * License URL: http://www.gnu.org/licenses/gpl-2.0.txt
- * text-domain: noob-pay-woo
+ * License URL: https://github.com/gmhoangdeveloper/PaymentQR_Momo/blob/master/README.md
+ * text-domain: momos-pay-woo
  */
 
 if (!in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_option('active_plugins')))) return;
@@ -18,7 +18,7 @@ add_action('plugins_loaded', 'momo_payment_init', 11);
 function momo_payment_init()
 {
     if (class_exists('WC_Payment_Gateway')) {
-        class WC_Noob_pay_Gateway extends WC_Payment_Gateway
+        class WC_Momo_pay_Gateway extends WC_Payment_Gateway
         {
             public function __construct()
             {
@@ -26,8 +26,8 @@ function momo_payment_init()
                 $this->id   = 'momo_payment';
                 $this->icon = apply_filters('woocommerce_momo_icon', plugins_url('/assets/logo-momo.png', __FILE__));
                 $this->has_fields = false;
-                $this->method_title = __('Momo Payment Gateway', 'noob-pay-woo');
-                $this->method_description = __('Momo doanh nghiệp QR', 'noob-pay-woo');
+                $this->method_title = __('Momo Payment Gateway', 'momo-pay-woo');
+                $this->method_description = __('Momo doanh nghiệp QR', 'momo-pay-woo');
                 // Phần hiện lên phần front-end
                 // Phần title là hiện nút tên from get option là lấy thông tin trong title
                 $this->title = $this->get_option('title');
@@ -44,11 +44,11 @@ function momo_payment_init()
             }
             public function init_form_fields()
             {
-                $this->form_fields = apply_filters('woo_noob_pay_fields', array(
+                $this->form_fields = apply_filters('woo_momo_pay_fields', array(
                     'enabled' => array(
                         'title' => __('Enable/Disable', 'momo-pay-woo'),
                         'type' => 'checkbox',
-                        'label' => __('Enable or Disable Noob Payments', 'momo-pay-woo'),
+                        'label' => __('Enable or Disable Momo thanh toán', 'momo-pay-woo'),
                         'default' => 'no'
                     ),
                     'title' => array(
@@ -106,7 +106,7 @@ function momo_payment_init()
                 $orderInfo = "Thanh toán qua MoMo";
                 $amount = $order->total;
                 $orderId =
-                $order->id . "";
+                    $order->id . "";
                 $returnUrl = $this->get_return_url($order);
                 $notifyurl =  $_SERVER['HTTP_REFERER'];
                 // Lưu ý: link notifyUrl không phải là dạng localhost
@@ -140,14 +140,14 @@ function momo_payment_init()
                     'requestType' => $requestType,
                     'signature' => $signature
                 );
-                
+
 
                 $headers = array(
                     // 'Authorization' => $basicauth,
                     'Content-type' => 'application/json',
                     // 'Content-length' => $contentlen
                 );
-              
+
                 $url  = $this->get_option('api_API_ENDPOINT');
                 $pload = array(
                     'method' => 'POST',
@@ -161,14 +161,13 @@ function momo_payment_init()
                 );
                 $response = wp_remote_post($url, $pload);
                 $responsepayUrl = json_decode($response['body'], true);
-   
+
                 $order->update_status('on-hold');
                 return array(
                     'result'   => 'success',
                     'redirect' => $responsepayUrl['payUrl'],
                 );
-
-            } 
+            }
             public function thankyou_page($order_id)
             {
                 $order = new WC_Order($order_id);
@@ -178,10 +177,10 @@ function momo_payment_init()
     }
 }
 
-add_filter('woocommerce_payment_gateways', 'add_to_woo_noob_payment_gateway');
+add_filter('woocommerce_payment_gateways', 'add_to_woo_momo_payment_gateway');
 
-function add_to_woo_noob_payment_gateway($gateways)
+function add_to_woo_momo_payment_gateway($gateways)
 {
-    $gateways[] = 'WC_Noob_pay_Gateway';
+    $gateways[] = 'WC_Momo_pay_Gateway';
     return $gateways;
 }
