@@ -106,9 +106,9 @@ function momo_payment_init()
                 $accessKey = $this->get_option('api_ACCESS_KEY');
                 $orderInfo = "Thanh toán qua MoMo";
                 $amount = $order->total;
-                $orderId =$order->id . "";
+                $orderId = $order->id . "";
                 $returnUrl = $this->get_return_url($order);
-                $notifyurl = wc_get_cart_url($order_id);
+                $notifyurl = $this->get_return_url($order);
                 // Lưu ý: link notifyUrl không phải là dạng localhost
                 $extraData = "merchantName=Goat White Payment Momo";
                 $requestId = time() . "";
@@ -171,7 +171,20 @@ function momo_payment_init()
             public function thankyou_page($order_id)
             {
                 $order = new WC_Order($order_id);
-                $order->update_status('processing');
+                $getUrl_Payemnt= $_SERVER['REQUEST_URI'];
+                // echo ("<script>console.log('PHP: " . $hoang . "');</script>");
+           
+                $chainNeedtofind  = 'message=Success';
+                $result_Chain = strpos($getUrl_Payemnt, $chainNeedtofind);
+
+                if ($result_Chain === false) {
+                    $order->update_status('on-hold');
+                    add_filter('woocommerce_thankyou_order_received_text', 'edittext_error_thank_you');
+                } else {
+                    $order->update_status('processing');
+                    add_filter('woocommerce_thankyou_order_received_text', 'edittext_success_thank_you');
+                    
+                }
             }
         }
     }
@@ -183,9 +196,20 @@ function add_to_woo_momo_payment_gateway($gateways)
     $gateways[] = 'WC_Momo_pay_Gateway';
     return $gateways;
 }
-
+function edittext_success_thank_you()
+{
+    $edit_text_success = '<p class="success-color woocommerce-notice woocommerce-notice--success woocommerce-thankyou-order-received">
+    <strong>Cảm ơn bạn. Đơn Hàng Bạn Thanh Toán Thành Công!</strong></p>';
+    return $edit_text_success;
+}
+function edittext_error_thank_you()
+{
+    $edit_text_error = '<p class="success-color woocommerce-notice woocommerce-notice--success woocommerce-thankyou-order-received">
+    <strong>Đơn Hàng Bạn Thanh Toán Không Thành Công!</strong></p>';
+    return $edit_text_error;
+}
 function load_my_transl()
 {
-    load_plugin_textdomain('momo-pay-woo',false, dirname(plugin_basename(__FILE__)) . '/languages/');
+    load_plugin_textdomain('momo-pay-woo', false, dirname(plugin_basename(__FILE__)) . '/languages/');
 }
 add_action('plugins_loaded', 'load_my_transl');
