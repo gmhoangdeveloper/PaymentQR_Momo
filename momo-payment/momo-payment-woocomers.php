@@ -9,7 +9,8 @@
  * Version: 0.1.0
  * License: 0.1.0
  * License URL: https://github.com/gmhoangdeveloper/PaymentQR_Momo/blob/master/README.md
- * text-domain: momos-pay-woo
+ * Text Domain: momo-pay-woo
+ * Domain Path: /languages
  */
 
 if (!in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_option('active_plugins')))) return;
@@ -35,6 +36,7 @@ function momo_payment_init()
                 // get option như lấy phần description trong íntruction
                 $this->init_form_fields();
                 $this->init_settings();
+
                 add_action('woocommerce_update_options_payment_gateways_' . $this->id, array($this, 'process_admin_options'));
                 add_action('woocommerce_thankyou_' . $this->id, array($this, 'thankyou_page'));
             }
@@ -100,15 +102,13 @@ function momo_payment_init()
             public function process_payment($order_id)
             {
                 $order = wc_get_order($order_id);
-
                 $partnerCode = $this->get_option('api_PARTNER_CODE');
                 $accessKey = $this->get_option('api_ACCESS_KEY');
                 $orderInfo = "Thanh toán qua MoMo";
                 $amount = $order->total;
-                $orderId =
-                    $order->id . "";
+                $orderId =$order->id . "";
                 $returnUrl = $this->get_return_url($order);
-                $notifyurl =  $_SERVER['HTTP_REFERER'];
+                $notifyurl = wc_get_cart_url($order_id);
                 // Lưu ý: link notifyUrl không phải là dạng localhost
                 $extraData = "merchantName=Goat White Payment Momo";
                 $requestId = time() . "";
@@ -178,9 +178,14 @@ function momo_payment_init()
 }
 
 add_filter('woocommerce_payment_gateways', 'add_to_woo_momo_payment_gateway');
-
 function add_to_woo_momo_payment_gateway($gateways)
 {
     $gateways[] = 'WC_Momo_pay_Gateway';
     return $gateways;
 }
+
+function load_my_transl()
+{
+    load_plugin_textdomain('momo-pay-woo',false, dirname(plugin_basename(__FILE__)) . '/languages/');
+}
+add_action('plugins_loaded', 'load_my_transl');

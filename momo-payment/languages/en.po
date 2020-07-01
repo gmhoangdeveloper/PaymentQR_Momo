@@ -1,0 +1,88 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2020-07-01 11:07+0700\n"
+"PO-Revision-Date: 2020-07-01 11:11+0700\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.2\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-KeywordsList: __\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: momo-payment-woocomers.php:30
+msgid "Cổng thanh toán Momo"
+msgstr "Momo Payment Gateway"
+
+#: momo-payment-woocomers.php:31
+msgid "Momo doanh nghiệp QR"
+msgstr "Momo Enterprise QR"
+
+#: momo-payment-woocomers.php:51
+msgid "Enable/Disable"
+msgstr "Bật/Tắt"
+
+#: momo-payment-woocomers.php:53
+msgid "Bật hoặc Tắt Momo thanh toán"
+msgstr "Enable or Disable Momo Payment"
+
+#: momo-payment-woocomers.php:57
+msgid "Tên phương thức"
+msgstr "Method name"
+
+#: momo-payment-woocomers.php:59
+msgid "Ví điện tử momo"
+msgstr "Momo e-wallet"
+
+#: momo-payment-woocomers.php:61
+msgid "Tên phương thức thanh toán"
+msgstr "Name of the payment method"
+
+#: momo-payment-woocomers.php:64
+msgid "Mô tả "
+msgstr "Description "
+
+#: momo-payment-woocomers.php:66
+msgid "Ví thanh toán trực tuyến hàng đầu Việt Nam"
+msgstr "Vietnam's leading online payment wallet"
+
+#: momo-payment-woocomers.php:68
+msgid "Mô tả phương thức thanh toán "
+msgstr "Description of payment method"
+
+#: momo-payment-woocomers.php:71
+msgid "PARTNER CODE"
+msgstr "PARTNER CODE"
+
+#: momo-payment-woocomers.php:73
+msgid "Thông tin PARTNER CODE do momo cung cấp"
+msgstr "Information PARTNER CODE provided by momo"
+
+#: momo-payment-woocomers.php:78
+msgid "ACCESS KEY"
+msgstr "ACCESS KEY"
+
+#: momo-payment-woocomers.php:80
+msgid "Thông tin ACCESS KEY do momo cung cấp"
+msgstr "Information ACCESS KEY provided by momo"
+
+#: momo-payment-woocomers.php:85
+msgid "SECRET KEY"
+msgstr "SECRET KEY"
+
+#: momo-payment-woocomers.php:87
+msgid "Thông tin SECRET KEY do momo cung cấp"
+msgstr "Information SECRET KEY provided by momo"
+
+#: momo-payment-woocomers.php:92
+msgid "API ENDPOINT"
+msgstr "API ENDPOINT"
+
+#: momo-payment-woocomers.php:94
+msgid "Thông tin API ENDPOINT do momo cung cấp"
+msgstr "Information API ENDPOINT provided by momo"
